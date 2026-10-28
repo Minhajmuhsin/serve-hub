@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Services</h1>
+
+<form method="get" class="filters">
+  <input type="text" name="q" value="{{ query }}" placeholder="Search services">
+
+  <select name="category">
+    <option value="">All categories</option>
+    {% for category in categories %}
+      <option value="{{ category.id }}"
+        {% if selected_category == category.id %}selected{% endif %}>
+        {{ category.name }}
+      </option>
+    {% endfor %}
+  </select>
+
+  <input type="text" name="city" value="{{ city }}" placeholder="City">
+
+  <select name="sort">
+    <option value="newest" {% if sort == 'newest' %}selected{% endif %}>Newest</option>
+    <option value="price_low" {% if sort == 'price_low' %}selected{% endif %}>Price: Low to High</option>
+    <option value="price_high" {% if sort == 'price_high' %}selected{% endif %}>Price: High to Low</option>
+  </select>
+
+  <button type="submit">Apply</button>
+</form>
+
+<div class="service-grid">
+  {% for service in services %}
+    <a class="service-card" href="{{ url_for('services.detail', service_id=service.id) }}">
+      <h3>{{ service.title }}</h3>
+      <p>{{ service.category.name }}</p>
+      <p>{{ service.city }}</p>
+      <p>
+        {% if service.price %}
+          ₹{{ service.price }}
+        {% else %}
+          Request quote
+        {% endif %}
+      </p>
+    </a>
+  {% else %}
+    <p>No services found.</p>
+  {% endfor %}
+</div>
+{% endblock %}

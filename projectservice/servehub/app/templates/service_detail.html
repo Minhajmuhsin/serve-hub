@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<article class="service-detail">
+  <h1>{{ service.title }}</h1>
+  <p><strong>Category:</strong> {{ service.category.name }}</p>
+  <p><strong>Provider:</strong> {{ service.provider.name }}</p>
+  <p><strong>City:</strong> {{ service.city }}</p>
+  <p><strong>Price:</strong>
+    {% if service.price %}
+      ₹{{ service.price }}
+    {% else %}
+      Request quote
+    {% endif %}
+  </p>
+
+  <p>{{ service.description }}</p>
+</article>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Service Approvals</h1>
+
+{% for service in services %}
+  <div class="user-card">
+    <strong>{{ service.title }}</strong>
+    <span class="badge">{{ service.status }}</span>
+    <span>{{ service.provider.name }}</span>
+    <span>{{ service.category.name }}</span>
+
+    {% if service.status == 'pending' %}
+      <form method="POST" action="{{ url_for('admin.approve_service', service_id=service.id) }}">
+        <button type="submit">Approve</button>
+      </form>
+
+      <form method="POST" action="{{ url_for('admin.reject_service', service_id=service.id) }}">
+        <button type="submit">Reject</button>
+      </form>
+    {% endif %}
+  </div>
+{% else %}
+  <p>No services submitted yet.</p>
+{% endfor %}
+{% endblock %}
